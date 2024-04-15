@@ -33,7 +33,7 @@ public class App {
         }
         switch (svar) {
             case 1:
-            boka();
+            boka(sittplatserFödnmr, sittplatserNamn);
             case 2:
             hittaBokning();
             case 3:
@@ -44,8 +44,39 @@ public class App {
         
 
     }
-    static void boka(){
+    static void boka(int []sittplatserFödnmr, String []sittplatserNamn){
+        System.out.println("Vill du boka en fönsterplats eller gångplats?");
+        int [] fönsterplatser = new int[10];
+        if (in.nextLine().equalsIgnoreCase("fönsterplats")){
+            hittaFönsterPlatser(fönsterplatser);
+            System.out.println("Skriv ditt födelsenummer först med ÅÅÅÅMMDD format");
+            int födnmr = 0;
+            while (födnmr==0){
+                try {
+                    födnmr = in.nextInt();
+                    in.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Svar med siffror");
+                    födnmr = 0;
+                    in.nextLine();
+                }
+                if (födnmr>30000000||födnmr<10000000&&födnmr!=0) {
+                    System.out.println("Svara i ÅÅÅÅMMDD format");
+                    födnmr=0;
+                }
+            }
 
+        }
+    }
+    static void hittaFönsterPlatser (int []fönsterplatser){
+        int fönsterindex = 0;
+        int fyra = 4;
+        for (int i=0; i<20; i++){
+            if (i%4==1||i%4==0) {
+                fönsterplatser[fönsterindex] = i;
+                fönsterindex++;
+            }
+        }
     }
     static int hittaBokning(){
         int index = 0;
