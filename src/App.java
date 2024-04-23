@@ -20,6 +20,7 @@ public class App {
             System.out.println("2. Hitta bokning");
             System.out.println("3. Avboka");
             System.out.println("4. Avsluta programmet");
+            System.out.println("5. Skriv ut platser");
             int svar = 0;
             while (svar==0){
                 try {
@@ -30,7 +31,7 @@ public class App {
                     svar = 0;
                     in.nextLine();
                 }
-                if (svar>4||svar<1&&svar!=0) {
+                if (svar>5||svar<1&&svar!=0) {
                     System.out.println("Svara med rätt siffror");
                     svar=0;
                 }
@@ -53,6 +54,9 @@ public class App {
                 break;
                 case 4:
                 meny = false;
+                break;
+                case 5:
+                visaPlatser(sittplatserFödnmr);
                 break;
             }
         }
@@ -109,7 +113,7 @@ public class App {
         int fönsterindex = 0;
         int fyra = 4;
         for (int i=0; i<20; i++){
-            if (i%4==1||i%4==0) {
+            if ((i+1)%4==1||(i+1)%4==0) {
                 fönsterplatser[fönsterindex] = i;
                 fönsterindex++;
             }
@@ -142,5 +146,26 @@ public class App {
         int index = hittaBokning(sittplatserFödnmr, sittplatserNamn);
         sittplatserFödnmr[index] = 0;
         sittplatserNamn[index] = "0";
+    }
+    static void visaPlatser(int[]sittplatserFödnmr){
+        for (int i=0; i<sittplatserFödnmr.length;i++){
+            if(sittplatserFödnmr[i]==0){
+                if (i<=8){
+                    System.out.print("[0"+(i+1)+"]");
+                }
+                else{
+                    System.out.print("["+(i+1)+"]");
+                }
+            }
+            else{
+                System.out.print("[XX]");
+            }
+            if ((i+1)%4==2) {
+                System.out.print("   ");
+            }
+            if ((i+1)%4==0) {
+                System.out.println();
+            }
+        }
     }
 }
