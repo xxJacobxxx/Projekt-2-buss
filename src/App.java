@@ -37,17 +37,20 @@ public class App {
             }
             switch (svar) {
                 case 1:
-                boka(sittplatserFödnmr, sittplatserNamn);
+                    boka(sittplatserFödnmr, sittplatserNamn);
+                    break;
                 case 2:
-                int hittadBokning =hittaBokning(sittplatserFödnmr, sittplatserNamn);
-                if(hittadBokning==0){
-                    System.out.println("Kunde inte hitta bokningen, kontrollera att du inte har använt å,ä,ö i namnet eller skrivit fel någonstans.");
-                }
-                else{
-                    System.out.println("Bokningen finns på plats nummer: "+(hittadBokning+1));
-                }
+                    int hittadBokning =hittaBokning(sittplatserFödnmr, sittplatserNamn);
+                    if(hittadBokning==0){
+                        System.out.println("Kunde inte hitta bokningen, kontrollera att du inte har använt å,ä,ö i namnet eller skrivit fel någonstans.");
+                    }
+                    else{
+                        System.out.println("Bokningen finns på plats nummer: "+(hittadBokning+1));
+                    }
+                    break;
                 case 3:
-                avboka();
+                    avboka(sittplatserFödnmr, sittplatserNamn);
+                break;
                 case 4:
                 meny = false;
                 break;
@@ -135,7 +138,9 @@ public class App {
         return index;
 
     }
-    static void avboka(){
-
+    static void avboka(int[]sittplatserFödnmr, String[]sittplatserNamn){
+        int index = hittaBokning(sittplatserFödnmr, sittplatserNamn);
+        sittplatserFödnmr[index] = 0;
+        sittplatserNamn[index] = "0";
     }
 }
