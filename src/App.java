@@ -31,7 +31,7 @@ public class App {
                     svar = 0;
                     in.nextLine();
                 }
-                if (svar>5||svar<1&&svar!=0) {
+                if (svar>6||svar<1&&svar!=0) {
                     System.out.println("Svara med rätt siffror");
                     svar=0;
                 }
@@ -58,6 +58,8 @@ public class App {
                 case 5:
                 visaPlatser(sittplatserFödnmr);
                 break;
+                case 6:
+                skrivUtSorteradLista(sittplatserFödnmr,sittplatserNamn);
             }
         }
         
@@ -102,9 +104,10 @@ public class App {
                     födnmr=0;
                 }
             }
-            sittplatserFödnmr[fönsterplatser[rand.nextInt(10)]] = födnmr;
+            int platsindex = rand.nextInt(10);
+            sittplatserFödnmr[fönsterplatser[platsindex]] = födnmr;
             System.out.println("Skriv nu in ditt namn");
-            sittplatserNamn[fönsterplatser[rand.nextInt(10)]] = in.nextLine();
+            sittplatserNamn[fönsterplatser[platsindex]] = in.nextLine();
 
         }
         
@@ -166,6 +169,47 @@ public class App {
             if ((i+1)%4==0) {
                 System.out.println();
             }
+        }
+    }
+    static void skrivUtSorteradLista(int[] sittplatserFödnmr, String[] sittplatserNamn) {
+        int[] åldersSorterade = new int[20];
+        String[] namnSorterade = new String[20];
+        int platsRäknare = 0;
+        sorteraLista(åldersSorterade, sittplatserFödnmr, namnSorterade, sittplatserNamn);
+        for (int i = 0; i < 20; i++) {
+            if (åldersSorterade[i] == 0) {
+                platsRäknare++;
+            } else {
+                System.out.println(åldersSorterade[i] + " " + namnSorterade[i]);
+            }
+    
+        }
+        if (platsRäknare == 20) {
+            System.out.println("Inga platser bokade");
+        }
+    }
+    
+    static void sorteraLista(int[] åldersSorterade, int[] sittplatserFödnmr, String[] namnSorterade, String[] sittplatserNamn) {
+        int åldertemp = 0;
+        String namntemp = "";
+        for (int i = 0; i < 20; i++) {
+            åldersSorterade[i] = sittplatserFödnmr[i];
+            namnSorterade[i] = sittplatserNamn[i];
+        }
+        for (int j = 0; j < 20; j++) {
+            for (int i = 0; i < 19; i++) {
+                if (åldersSorterade[i] > åldersSorterade[i + 1]) {
+                    åldertemp = åldersSorterade[i];
+                    åldersSorterade[i] = åldersSorterade[i + 1];
+                    åldersSorterade[i + 1] = åldertemp;
+    
+                    namntemp = namnSorterade[i];
+                    namnSorterade[i] = namnSorterade[i + 1];
+                    namnSorterade[i + 1] = namntemp;
+    
+                }
+            }
+    
         }
     }
 }
