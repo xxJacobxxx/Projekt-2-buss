@@ -9,6 +9,7 @@ public class App {
         final double BARNPRIS = 149.90;
         int[] sittplatserFödnmr = new int [20];
         String[] sittplatserNamn = new String [20];
+        double totalPris = 0;
         for(int i=0; i<sittplatserFödnmr.length; i++){
             sittplatserFödnmr[i] = 0;
             sittplatserNamn[i] = "0";
@@ -21,6 +22,8 @@ public class App {
             System.out.println("3. Avboka");
             System.out.println("4. Avsluta programmet");
             System.out.println("5. Skriv ut platser");
+            System.out.println("6. Visa bokningar i åldersordning");
+            System.out.println("7. Beräkna vinsten ");
             int svar = 0;
             while (svar==0){
                 try {
@@ -31,7 +34,7 @@ public class App {
                     svar = 0;
                     in.nextLine();
                 }
-                if (svar>6||svar<1&&svar!=0) {
+                if (svar>7||svar<1&&svar!=0) {
                     System.out.println("Svara med rätt siffror");
                     svar=0;
                 }
@@ -60,14 +63,17 @@ public class App {
                 break;
                 case 6:
                 skrivUtSorteradLista(sittplatserFödnmr,sittplatserNamn);
+                break;
+                case 7:
+                beräknaVinst(sittplatserFödnmr, 21, BARNPRIS, VUXENPRIS, totalPris);
             }
         }
         
 
     }
     static void boka(int []sittplatserFödnmr, String []sittplatserNamn){
-        System.out.println("Vill du boka en fönsterplats eller gångplats?");
-        System.out.println("Välj 1 för fönster och 2 får gångplats");
+        System.out.println("Vill du specialboka en fönsterplats");
+        System.out.println("Välj 1 för fönsterplats och 2 för ospecifierat sittplats");
         int [] fönsterplatser = new int[10];
         Random rand = new Random();
         int fönsterEllerGång = 0;
@@ -85,29 +91,35 @@ public class App {
                     fönsterEllerGång=0;
                 }
             }
+        System.out.println("Skriv ditt födelsenummer först med ÅÅÅÅMMDD format");
+        int födnmr = 0;
+        while (födnmr==0){
+            try {
+                födnmr = in.nextInt();
+                in.nextLine();                } catch (Exception e) {
+                System.out.println("Svar med siffror");
+                födnmr = 0;
+                in.nextLine();
+            }
+            if (födnmr>30000000||födnmr<10000000&&födnmr!=0) {
+                System.out.println("Svara i ÅÅÅÅMMDD format");
+                födnmr=0;
+            }
+            }
         if (fönsterEllerGång==1){
             
             hittaFönsterPlatser(fönsterplatser);
-            System.out.println("Skriv ditt födelsenummer först med ÅÅÅÅMMDD format");
-            int födnmr = 0;
-            while (födnmr==0){
-                try {
-                    födnmr = in.nextInt();
-                    in.nextLine();
-                } catch (Exception e) {
-                    System.out.println("Svar med siffror");
-                    födnmr = 0;
-                    in.nextLine();
-                }
-                if (födnmr>30000000||födnmr<10000000&&födnmr!=0) {
-                    System.out.println("Svara i ÅÅÅÅMMDD format");
-                    födnmr=0;
-                }
-            }
             int platsindex = rand.nextInt(10);
             sittplatserFödnmr[fönsterplatser[platsindex]] = födnmr;
             System.out.println("Skriv nu in ditt namn");
             sittplatserNamn[fönsterplatser[platsindex]] = in.nextLine();
+
+        }
+        else{
+            int platsindex = rand.nextInt(10);
+            sittplatserFödnmr[platsindex] = födnmr;
+            System.out.println("Skriv nu in ditt namn");
+            sittplatserNamn[platsindex] = in.nextLine();
 
         }
         
@@ -210,6 +222,20 @@ public class App {
                 }
             }
     
+        }
+    }
+    static void beräknaVinst(int[]sittplatserFödnmr,int index,double BARNPRIS, double VUXENPRIS, double totalPris){
+        if (index==0) {
+            System.out.println("Vinsten är: "+totalPris);
+        }
+        else{
+            if (sittplatserFödnmr[index-1]<20060500&&sittplatserFödnmr[index-1]!=0){
+               totalPris = totalPris+VUXENPRIS;
+            }
+            else if(sittplatserFödnmr[index-1]!=0){
+                totalPris = totalPris+BARNPRIS;
+            }
+            beräknaVinst(sittplatserFödnmr, index-1, BARNPRIS, VUXENPRIS, totalPris);
         }
     }
 }
