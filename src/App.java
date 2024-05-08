@@ -65,7 +65,7 @@ public class App {
                 skrivUtSorteradLista(sittplatserFödnmr,sittplatserNamn);
                 break;
                 case 7:
-                beräknaVinst(sittplatserFödnmr, 21, BARNPRIS, VUXENPRIS, totalPris);
+                beräknaVinst(sittplatserFödnmr, 20, BARNPRIS, VUXENPRIS, totalPris);
             }
         }
         
